@@ -2,6 +2,7 @@ import time
 import pylsl
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def collect_eeg_data(duration=60, chunk_size=12):
     """
@@ -58,7 +59,10 @@ def collect_eeg_data(duration=60, chunk_size=12):
             data, timestamp = inlet.pull_chunk(timeout=1.0, 
                                              max_samples=chunk_size)
             if data:
+                # print(data)
                 eeg_data.extend(data)
+                plt.plot(data)
+                plt.show()
                 # Optional: Print a dot to show progress
                 print(".", end="", flush=True)
                 
