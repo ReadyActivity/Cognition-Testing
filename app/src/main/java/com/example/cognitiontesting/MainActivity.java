@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -21,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private TextView textViewOutput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("tag", "hello");
         Log.i("tag2", "Test");
+
+        textViewOutput = findViewById(R.id.text_home);
+
+        Python.start(new AndroidPlatform(getApplicationContext()));
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +78,13 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
 
 
+    }
+    public void buttonPythonRun(View view){
+        Python python = Python.getInstance();
+        PyObject pyObjectResult = python.getModule("add_num_test")
+                .callAttr("add_num_test", 11, 10);
+
+        textViewOutput.setText(pyObjectResult.toString());
     }
 
 
